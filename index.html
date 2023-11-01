@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Converter</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #eab3c9;
+      font-family: "Pretendard";
+    }
+
+    h1 {
+      width: 200px;
+      margin: 0 auto;
+      padding: 15px 0px;
+      background: #000;
+      border-radius: 50px;
+      font-size: 20px;
+      color: #eab3c9;
+    }
+
+    .contents {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 450px;
+      height: 420px;
+      padding: 70px 0;
+      box-sizing: border-box;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(178, 136, 153, 0.5);
+      text-align: center;
+    }
+
+    select {
+      margin: 10px 0;
+      padding: 7px;
+      border: none;
+      border-bottom: 1px solid #000;
+      font-family: "Pretendard";
+      font-size: 15px;
+    }
+
+    .notice {
+      color: #eab3c9;
+    }
+
+    .converter-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .converter-wrap > div {
+      margin-bottom: 10px;
+    }
+
+    .converter-wrap > div:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .converter-wrap .input-wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .converter-wrap label {
+      display: block;
+      width: 75px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .converter-wrap input {
+      padding: 5px 7px;
+      border: 1px solid #000;
+      font-family: "Pretendard";
+      font-size: 15px;
+    }
+
+    .converter-wrap input:disabled {
+      background-color: rgba(234, 179, 201, 0.2);
+    }
+
+    .converter-wrap .button-wrap {
+      margin-top: 16px;
+    }
+
+    .converter-wrap .button-wrap button {
+      cursor: pointer;
+      background: none;
+      border: 1px solid #000;
+      font-family: "Pretendard";
+      font-size: 15px;
+      padding: 10px 15px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .converter-wrap .button-wrap button:first-of-type {
+      margin-right: 7px;
+    }
+
+    .converter-wrap .button-wrap button:hover {
+      background-color: #000;
+      color: #fff;
+    }
+  </style>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState();
+      const [hours, setHours] = React.useState();
+      const [invert, setInvert] = React.useState(true);
+
+      function changeMinutes(event) {
+        setMinutes(event.target.value);
+        setHours(event.target.value / 60);
+      }
+
+      function changeHours(event) {
+        setHours(event.target.value);
+        setMinutes(event.target.value * 60);
+      }
+
+      function onReset() {
+        setMinutes("");
+        setHours("");
+      }
+
+      function onInvert() {
+        setInvert((current) => !current);
+      }
+
+      return (
+        <div className="converter-wrap">
+          <div className="input-wrap">
+            <label for="minutes">Minutes</label>
+            <input type="number" value={minutes} id="minutes" placeholder="분을 입력해 주세요" onChange={changeMinutes} disabled={!invert} />
+          </div>
+          <div className="input-wrap">
+            <label for="hours">Hours</label>
+            <input type="number" value={hours} id="hours" placeholder="시를 입력해 주세요" onChange={changeHours} disabled={invert} />
+          </div>
+          <div className="button-wrap">
+            <button onClick={onReset}>Reset</button>
+            <button onClick={onInvert}>Invert</button>
+          </div>
+        </div>
+      );
+    }
+
+    function CmToMm() {
+      const [cmLength, setCmLength] = React.useState();
+      const [mmLength, setMmLength] = React.useState();
+      const [invert, setInvert] = React.useState(true);
+
+      function changeCm(event) {
+        setCmLength(event.target.value);
+        setMmLength(event.target.value * 10);
+      }
+
+      function changeMm(event) {
+        setMmLength(event.target.value);
+        setCmLength(event.target.value / 10);
+      }
+
+      function onReset() {
+        setCmLength("");
+        setMmLength("");
+      }
+
+      function onInvert() {
+        setInvert((current) => !current);
+      }
+
+      return (
+        <div className="converter-wrap">
+          <div className="input-wrap">
+            <label for="cm">㎝</label>
+            <input type="number" id="cm" value={cmLength} placeholder="㎝를 입력해 주세요" onChange={changeCm} disabled={!invert} />
+          </div>
+          <div className="input-wrap">
+            <label for="mm">㎜</label>
+            <input type="number" id="mm" value={mmLength} placeholder="㎜를 입력해 주세요" onChange={changeMm} disabled={invert} />
+          </div>
+          <div className="button-wrap">
+            <button onClick={onReset}>Reset</button>
+            <button onClick={onInvert}>Invert</button>
+          </div>
+        </div>
+      );
+    }
+
+    function Converter() {
+      const [value, setValue] = React.useState("noSelect");
+
+      function onSelect(e) {
+        setValue(e.target.value);
+      }
+
+      return (
+        <div className="contents">
+          <h1>Super Converter</h1>
+          <select value={value} onChange={onSelect}>
+            <option value="noSelect">Select units</option>
+            <option value="minsToHrs">Minutes to Hours</option>
+            <option value="cmToMm">㎝ to ㎜</option>
+          </select>
+          {value === "noSelect" ? <p className="notice">Please select your units!</p> : null}
+          {value === "minsToHrs" ? <MinutesToHours /> : null}
+          {value === "cmToMm" ? <CmToMm /> : null}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<Converter />, root);
+  </script>
+</body>
+</html>
